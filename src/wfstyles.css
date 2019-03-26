@@ -1,0 +1,32 @@
+/* Change BG colors of cards for completion */
+
+.completeBG {
+  background-color: #8B4B00 !important;
+}
+
+/*** custom checkboxes ***/
+
+input.custom[type=checkbox] { display:none; } /* to hide the checkbox itself */
+input.custom[type=checkbox] + label:before {
+  font-family: "Font Awesome 5 Free";
+  visibility: visible;
+}
+
+input.custom[type=checkbox] + label {
+  visibility: hidden;
+  display: inline-block;
+}
+
+/* Owned */
+input.owned[type=checkbox] + label:before { content: "\f07a"; color: #292929; font-weight: bold; font-size: 1.5em; } /* unchecked icon */
+input.owned[type=checkbox] + label:before { letter-spacing: 10px; } /* space between checkbox and label */
+
+input.owned[type=checkbox]:checked + label:before { content: "\f07a"; color: #00aa00 !important; font-weight: bold; font-size: 1.5em; } /* checked icon */
+input.owned[type=checkbox]:checked + label:before { letter-spacing: 10px; } /* allow space for check mark */
+
+/* Mastered */
+input.mastery[type=checkbox] + label:before { content: "\f091"; color: #292929; font-weight: bold; font-size: 1.5em; } /* unchecked icon */
+input.mastery[type=checkbox] + label:before { letter-spacing: 10px; } /* space between checkbox and label */
+
+input.mastery[type=checkbox]:checked + label:before { content: "\f091"; color: #ffbf00 !important; font-weight: bold; font-size: 1.5em; } /* checked icon */
+input.mastery[type=checkbox]:checked + label:before { letter-spacing: 10px; } /* allow space for check mark */

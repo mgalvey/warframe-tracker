@@ -1,3 +1,12 @@
 <template>
-  <h1>${message}</h1>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.3.1/cyborg/bootstrap.min.css" integrity="sha256-hoDURIiTJq4LoWolmMdmQp2vWa/XZZORA8WrQYqOVjo=" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.2/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+  <require from="wfstyles.css"></require>
+  <compose view="nav-bar.html"></compose>
+
+  <nav-bar router.bind="router"></nav-bar>
+
+  <div class="page-host">
+    <router-view></router-view>
+  </div>
 </template>

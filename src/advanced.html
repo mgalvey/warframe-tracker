@@ -1,0 +1,19 @@
+<template>
+  <div class="container-fluid pt-3">
+    <div class="row">
+      <div class="col-6">
+        <h3>Settings</h3>
+        <div class="p-1" style="border: 1px solid #DDDDDD; border-radius: 3px;">
+          <h4>Layout</h4>
+          <form>
+            <input type="radio" name="layoutCols" model.bind="4" checked.bind="app.globals.cols" id="4col" change.trigger="app.globals.saveState()">
+            <label for="4col">4 Columns</label>&nbsp;
+            <input type="radio" name="layoutCols" model.bind="6" checked.bind="app.globals.cols" id="6col" change.trigger="app.globals.saveState()">
+            <label for="6col">6 Columns</label>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <input type="text" class="disabled" value.bind="app.globals.textSearch"> -->
+</template>

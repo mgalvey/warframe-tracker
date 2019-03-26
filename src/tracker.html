@@ -1,0 +1,61 @@
+<template>
+<!--   <div id="statusbar" class="container-fluid fixed-bottom alert alert-light disabled p-0 m-0">
+    <div class="row no-gutters">
+      <div class="col-3">
+        <div class="alert alert-secondary m-1 p-1 text-white">
+          Hai?
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="alert alert-secondary m-1 p-1 text-white">
+          I'm a center col!
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="alert alert-secondary m-1 p-1 text-white">
+          I'm a right col!
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="alert alert-secondary m-1 p-1 text-white">
+          I'm a right col!
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div class="container-fluid sticky-top pt-1" style="background-color: black;">
+    <form class=''>
+      <label class="sr-only" for="search">Search:&nbsp;</label>
+      <div class="input-group mb-2">
+        <div class="input-group-prepend">
+          <div class="input-group-text"><i class="fa fa-search"></i></div>
+        </div>
+        <input class="form-control" type="text" id="search" value.bind="app.globals.textSearch" placeholder="Search for items by name...">
+      </div>
+      <div>
+        <div class="d-inline-block" style="font-size: 125%;">Show:&nbsp;</div>
+        <div repeat.for="cat of app.globals.usefulCategories" class="form-check form-check-inline">
+          <input class="form-check-input" type="checkbox" id="${cat}Checkbox" model.bind="cat" checked.bind="app.globals.showOnly" change.trigger="app.globals.saveState()">
+          <label class="form-check-label" for="${cat}Checkbox">${cat} (${app.globals.owned[cat].length}/${app.globals.complete[cat].length}/${app.globals[cat + 'Total']})</label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="container-fluid pt-3">
+    <div class="row mb-5">
+      <div class="col-${12/app.globals.cols}" repeat.for="item of app.globals.allItems" show.bind="app.globals.showOnlyLen > 0 && item.searchName.includes(app.globals.textSearch.toLowerCase()) && app.globals.showOnly.includes(item.category)">
+        <div class="alert alert-secondary m-1 p-1">
+        <!-- <div class="alert alert-secondary m-1 p-1" class.bind="app.globals.complete[item.category].includes(item.uniqueName) ? 'completeBG' : ''"> -->
+          <!-- <img class="d-inline-block" src="https://cdn.warframestat.us/img/${item.imageName}" style='max-height: 72px;'>&nbsp; -->
+          <div class="text-center" style="font-size: 135%;">
+            ${item.name}<br/>
+            <input id="${item.uniqueName}ownedcheck" type="checkbox" class="custom owned" model.bind="item.uniqueName" checked.bind="app.globals.owned[item.category]" change.trigger="app.globals.saveState()">
+            <label for="${item.uniqueName}ownedcheck" class="mb-0 pb-0" title="Owned"></label>
+            <input id="${item.uniqueName}masteredcheck" type="checkbox" class="custom mastery" model.bind="item.uniqueName" checked.bind="app.globals.complete[item.category]" change.trigger="app.globals.saveState()">
+            <label for="${item.uniqueName}masteredcheck" class="mb-0 pb-0" title="Mastered"></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
