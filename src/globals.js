@@ -42,7 +42,7 @@ export class Globals {
       }
     }
 
-    fetch('https://raw.githubusercontent.com/WFCD/warframe-items/master/data/json/All.json')
+    fetch('https://cdn.jsdelivr.net/gh/WFCD/warframe-items/data/json/All.json')
       .then(response => response.json())
       .then(data => this.loadItems(data));
   }
