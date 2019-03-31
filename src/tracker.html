@@ -31,6 +31,11 @@
           <div class="input-group-text"><i class="fa fa-search"></i></div>
         </div>
         <input class="form-control" type="text" id="search" value.bind="app.globals.textSearch" placeholder="Search for items by name...">
+        <div class="input-group-btn input-group-append">
+          <button click.trigger="app.globals.textSearch = ''" class="btn btn-default input-group-text" type="submit">
+            <i class="far fa-times-circle"></i>
+          </button>
+        </div>
       </div>
       <div>
         <div class="d-inline-block" style="font-size: 125%;">Show:&nbsp;</div>
