@@ -1,4 +1,4 @@
-import { computedFrom } from 'aurelia-framework';
+import {computedFrom} from 'aurelia-framework';
 
 export class Globals {
   constructor() {
@@ -11,23 +11,20 @@ export class Globals {
     this.complete = {};
     this.owned = {};
     this.hideComplete = false;
+    this.included = ['Mastered', 'Unmastered'];
     this.allItems = [];
     this.cols = 4;
 
     this.usefulCategories = [
       'Warframes', 'Primary', 'Secondary', 'Melee', 'Amps', 'Sentinels', 'Pets', 'Moas', 'Zaws', 'Archwing'
     ];
-
-    var sec = new RegExp('^/Lotus/Weapons.*?/Secondary/');
+    var sec = new RegExp('^/Lotus/Weapons/.*?/Secondary/.*?ModularSecondarySet.*?/Barrel/.*?ModularSecondaryBarrel[A-Z]+?Part$');
     var moa = new RegExp('/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHead');
-    var zaw = new RegExp('/Lotus/Weapons/Ostron/Melee/ModularMelee.*?/Tip/');
-    var zaw2 = new RegExp('/Lotus/Weapons/Ostron/Melee/ModularMeleeInfested/Tips/');
-    var amp = new RegExp('/Lotus/Weapons/.*?/OperatorAmplifiers/Set.*?/Barrel/');
-    var amp2 = new RegExp('/Lotus/Weapons/Sentients/OperatorAmplifiers/SentTrainingAmplifier/SentAmpTrainingBarrel');
+    var zaw = new RegExp('/Lotus/Weapons/Ostron/Melee/ModularMelee.*?/Tips?/');
+    var amp = new RegExp('/Lotus/Weapons/.*?/OperatorAmplifiers/.*?Barrel');
     var sw = new RegExp('/Lotus/Types/Sentinels/SentinelWeapons/');
     this.categoryOverrides = [
-      [sec, 'Secondary'], [moa, 'Moas'], [zaw, 'Zaws'], [amp, 'Amps'], [amp2, 'Amps'],
-      [sw, 'Sentinels'], [zaw2, 'Zaws']
+      [sec, 'Secondary'], [moa, 'Moas'], [zaw, 'Zaws'], [amp, 'Amps'], [sw, 'Sentinels']
     ];
 
     this.loadState();
@@ -42,7 +39,7 @@ export class Globals {
       }
     }
 
-    fetch('https://cdn.jsdelivr.net/gh/WFCD/warframe-items/data/json/All.json')
+    fetch('https://unpkg.com/warframe-items/data/json/All.json')
       .then(response => response.json())
       .then(data => this.loadItems(data));
   }
@@ -52,6 +49,33 @@ export class Globals {
     return this.showOnly.length;
   }
 
+  @computedFrom('included.length')
+  get includedLen() {
+    return this.included.length;
+  }
+
+  // @computedFrom('owned.length', 'complete.length', 'showOnly.length', 'cols')
+  // get state() {
+  //   var tmp = {};
+  //   tmp['owned'] = this.owned;
+  //   tmp['complete'] = this.complete;
+  //   tmp['showOnly'] = this.showOnly;
+  //   tmp['cols'] = this['cols'];
+  //   // Any time anything feeding this changes, save the changes.
+  //   this.saveState();
+  //   return JSON.stringify(tmp);
+  // }
+
+  // set state(data) {
+  //   try {
+  //     var newVal = JSON.parse(data);
+  //   }
+  //   catch(e) {
+  //     return false;
+  //   }
+  //   console.log(newVal.cols);
+  // }
+
   loadState() {
     if(localStorage.stateSaved == 'true') {
       this.showOnly = JSON.parse(localStorage.showOnly);
@@ -59,6 +83,9 @@ export class Globals {
       this.complete = JSON.parse(localStorage.complete);
       if(localStorage.hasOwnProperty('cols')) {
         this.cols = JSON.parse(localStorage.cols);
+      }
+      if(localStorage.hasOwnProperty('included')) {
+        this.included = JSON.parse(localStorage.included);
       }
       console.log('State loaded!');
     }
@@ -70,6 +97,8 @@ export class Globals {
     localStorage.complete = JSON.stringify(this.complete);
     localStorage.showOnly = JSON.stringify(this.showOnly);
     localStorage.cols = JSON.stringify(this.cols);
+    localStorage.included = JSON.stringify(this.included);
+    console.log('state saved')
   }
 
   loadItems(data) {

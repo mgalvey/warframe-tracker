@@ -4,6 +4,7 @@ export class App {
 
   constructor() {
     this.globals = new Globals();
+    console.log('App: ', this)
   }
 
   configureRouter(config, router) {
