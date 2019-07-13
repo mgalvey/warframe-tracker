@@ -5,7 +5,7 @@ export class Globals {
     // let s = new HttpClient();
     this.allVisible = true;
     this.showOnly = [
-      'Warframes', 'Primary', 'Secondary', 'Melee', 'Amps', 'Sentinels', 'Pets', 'Moas', 'Zaws', 'Archwing'
+      'Warframes', 'Primary', 'Secondary', 'Melee', 'Amps', 'Sentinels', 'Pets', 'Moas', 'Zaws', 'Archwing', 'K-Drive'
     ];
     this.textSearch = '';
     this.complete = {};
@@ -16,15 +16,17 @@ export class Globals {
     this.cols = 4;
 
     this.usefulCategories = [
-      'Warframes', 'Primary', 'Secondary', 'Melee', 'Amps', 'Sentinels', 'Pets', 'Moas', 'Zaws', 'Archwing'
+      'Warframes', 'Primary', 'Secondary', 'Melee', 'Amps', 'Sentinels',
+      'Pets', 'Moas', 'Zaws', 'Archwing', 'K-Drive'
     ];
     var sec = new RegExp('^/Lotus/Weapons/.*?/Secondary/.*?ModularSecondarySet.*?/Barrel/.*?ModularSecondaryBarrel[A-Z]+?Part$');
     var moa = new RegExp('/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHead');
     var zaw = new RegExp('/Lotus/Weapons/Ostron/Melee/ModularMelee.*?/Tips?/');
     var amp = new RegExp('/Lotus/Weapons/.*?/OperatorAmplifiers/.*?Barrel');
     var sw = new RegExp('/Lotus/Types/Sentinels/SentinelWeapons/');
+    var kd = new RegExp('^/Lotus/Types/Vehicles/Hoverboard/.*?Deck$');
     this.categoryOverrides = [
-      [sec, 'Secondary'], [moa, 'Moas'], [zaw, 'Zaws'], [amp, 'Amps'], [sw, 'Sentinels']
+      [sec, 'Secondary'], [moa, 'Moas'], [zaw, 'Zaws'], [amp, 'Amps'], [sw, 'Sentinels'], [kd, 'K-Drive']
     ];
 
     this.loadState();
