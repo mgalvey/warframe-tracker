@@ -55,7 +55,7 @@
   <div class="container-fluid pt-3">
     <div class="row mb-5">
       <div class="col-${12/app.globals.cols}" repeat.for="item of app.globals.allItems" show.bind="app.globals.showOnlyLen > 0 && app.globals.includedLen > 0 && app.globals.complete[item.category].length > -1 && ((app.globals.complete[item.category].includes(item.uniqueName) && app.globals.included.includes('Mastered')) || (!app.globals.complete[item.category].includes(item.uniqueName) && app.globals.included.includes('Unmastered'))) && item.searchName.includes(app.globals.textSearch.toLowerCase()) && app.globals.showOnly.includes(item.category)">
-        <div class="alert alert-secondary m-1 p-1">
+        <div class="alert alert-secondary m-1 p-1 text-center card">
         <!-- <div class="alert alert-secondary m-1 p-1" class.bind="app.globals.complete[item.category].includes(item.uniqueName) ? 'completeBG' : ''"> -->
           <!-- <img class="d-inline-block" src="https://cdn.warframestat.us/img/${item.imageName}" style='max-height: 72px;'>&nbsp; -->
           <div class="text-center" style="font-size: 135%;">
@@ -65,6 +65,15 @@
             <input id="${item.uniqueName}masteredcheck" type="checkbox" class="custom mastery" model.bind="item.uniqueName" checked.bind="app.globals.complete[item.category]" change.trigger="app.globals.saveState()">
             <label for="${item.uniqueName}masteredcheck" class="mb-0 pb-0" title="Mastered"></label>
           </div>
+          <span class="components-container">
+            <ul class="components">
+              <li repeat.for="component of item.components">
+                <div onclick="(function(e) {e.classList.toggle('haz')})(this)">
+                  <img src="https://cdn.warframestat.us/img/${component.imageName}" title="${component.name}">
+                </div>
+              </li>
+            </ul>
+          </span>
         </div>
       </div>
     </div>

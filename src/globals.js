@@ -20,13 +20,16 @@ export class Globals {
       'Pets', 'Moas', 'Zaws', 'Archwing', 'K-Drive'
     ];
     var sec = new RegExp('^/Lotus/Weapons/.*?/Secondary/.*?ModularSecondarySet.*?/Barrel/.*?ModularSecondaryBarrel[A-Z]+?Part$');
+    var notsec = new RegExp('^/Lotus/Weapons/.*?/Secondary/.*?ModularSecondarySet.*?/(Clip|Handle)/.*?$');
     var moa = new RegExp('/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHead');
     var zaw = new RegExp('/Lotus/Weapons/Ostron/Melee/ModularMelee.*?/Tips?/');
+    var notzaw = new RegExp('/Lotus/Weapons/Ostron/Melee/ModularMelee.*?/Balance/');
     var amp = new RegExp('/Lotus/Weapons/.*?/OperatorAmplifiers/.*?Barrel');
     var sw = new RegExp('/Lotus/Types/Sentinels/SentinelWeapons/');
     var kd = new RegExp('^/Lotus/Types/Vehicles/Hoverboard/.*?Deck$');
     this.categoryOverrides = [
-      [sec, 'Secondary'], [moa, 'Moas'], [zaw, 'Zaws'], [amp, 'Amps'], [sw, 'Sentinels'], [kd, 'K-Drive']
+      [sec, 'Secondary'], [moa, 'Moas'], [zaw, 'Zaws'], [amp, 'Amps'], [sw, 'Sentinels'], [kd, 'K-Drive'],
+      [notsec, 'Ignoreme'], [notzaw, 'Ignoreme']
     ];
 
     this.loadState();
@@ -105,10 +108,14 @@ export class Globals {
 
   loadItems(data) {
     for(var item of data) {
+      this.checkForOverride(item);
       if(item['category'] == 'Pets' && !item.hasOwnProperty('health')){
         continue;
       }
-      this.checkForOverride(item);
+      if(item['name'] == 'Oloro Moa') {
+        console.log('Encountered Oloro Moa. Why is it fucked?');
+        console.log(item);
+      }
       if(this.usefulCategories.includes(item['category'])) {
         item['searchName'] = item['name'].toLowerCase();
         this.allItems.push(item);

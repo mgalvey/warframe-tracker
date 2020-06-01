@@ -1,3 +1,48 @@
+/* Control font colors */
+.form-control {
+  background-color: #444 !important;
+  color: white !important;
+}
+
+.form-control::placeholder {
+  color: #888 !important;
+}
+
+/* Bottom component list */
+div.card {
+  padding-bottom: 0 !important;
+}
+
+.haz {
+  border-color: #00ff00 !important;
+}
+
+.components-container {
+  margin-top: 0.25rem;
+}
+
+.components {
+  margin-bottom: 0;
+  padding-left: 0;
+}
+
+.components, .components li, .components div {
+  display: inline-block;
+  line-height: 1rem;
+}
+
+.components div {
+  border: 1px solid #999999;
+  border-radius: 0.4rem 0.4rem 0 0;
+  border-bottom: none;
+  padding: 0.1rem;
+  margin-right: 0.15em;
+}
+
+.components img {
+  height: 1.25rem;
+}
+
 /* Change BG colors of cards for completion */
 
 .completeBG {

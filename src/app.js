@@ -4,6 +4,7 @@ export class App {
 
   constructor() {
     this.globals = new Globals();
+    this.window = window;
     console.log('App: ', this)
   }
 
