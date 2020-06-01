@@ -17,19 +17,20 @@ export class Globals {
 
     this.usefulCategories = [
       'Warframes', 'Primary', 'Secondary', 'Melee', 'Amps', 'Sentinels',
-      'Pets', 'Moas', 'Zaws', 'Archwing', 'K-Drive'
+      'Pets', 'Moas', 'Zaws', 'Archwing', 'K-Drive', 'Arch-Gun'
     ];
     var sec = new RegExp('^/Lotus/Weapons/.*?/Secondary/.*?ModularSecondarySet.*?/Barrel/.*?ModularSecondaryBarrel[A-Z]+?Part$');
     var notsec = new RegExp('^/Lotus/Weapons/.*?/Secondary/.*?ModularSecondarySet.*?/(Clip|Handle)/.*?$');
     var moa = new RegExp('/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHead');
     var zaw = new RegExp('/Lotus/Weapons/Ostron/Melee/ModularMelee.*?/Tips?/');
-    var notzaw = new RegExp('/Lotus/Weapons/Ostron/Melee/ModularMelee.*?/Balance/');
+    var notzaw = new RegExp('/Lotus/Weapons/Ostron/Melee/ModularMelee.*?/(Balance|Handles?)/');
     var amp = new RegExp('/Lotus/Weapons/.*?/OperatorAmplifiers/.*?Barrel');
+    var notamp = new RegExp('/Lotus/Weapons/.*?/OperatorAmplifiers/.*/(Grip|Chassis)/.*');
     var sw = new RegExp('/Lotus/Types/Sentinels/SentinelWeapons/');
     var kd = new RegExp('^/Lotus/Types/Vehicles/Hoverboard/.*?Deck$');
     this.categoryOverrides = [
       [sec, 'Secondary'], [moa, 'Moas'], [zaw, 'Zaws'], [amp, 'Amps'], [sw, 'Sentinels'], [kd, 'K-Drive'],
-      [notsec, 'Ignoreme'], [notzaw, 'Ignoreme']
+      [notsec, 'Ignoreme'], [notzaw, 'Ignoreme'], [notamp, 'Ignoreme']
     ];
 
     this.loadState();

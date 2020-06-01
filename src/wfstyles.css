@@ -66,6 +66,7 @@ input.custom[type=checkbox] + label {
 input.owned[type=checkbox] + label:before { content: "\f07a"; color: #292929; font-weight: bold; font-size: 1.5em; } /* unchecked icon */
 input.owned[type=checkbox] + label:before { letter-spacing: 10px; } /* space between checkbox and label */
 
+span.owned{ color: #00aa00 !important; } /* checked icon */
 input.owned[type=checkbox]:checked + label:before { content: "\f07a"; color: #00aa00 !important; font-weight: bold; font-size: 1.5em; } /* checked icon */
 input.owned[type=checkbox]:checked + label:before { letter-spacing: 10px; } /* allow space for check mark */
 
@@ -73,5 +74,6 @@ input.owned[type=checkbox]:checked + label:before { letter-spacing: 10px; } /* a
 input.mastery[type=checkbox] + label:before { content: "\f091"; color: #292929; font-weight: bold; font-size: 1.5em; } /* unchecked icon */
 input.mastery[type=checkbox] + label:before { letter-spacing: 10px; } /* space between checkbox and label */
 
+span.mastered{ color: #ffbf00 !important; } /* checked icon */
 input.mastery[type=checkbox]:checked + label:before { content: "\f091"; color: #ffbf00 !important; font-weight: bold; font-size: 1.5em; } /* checked icon */
 input.mastery[type=checkbox]:checked + label:before { letter-spacing: 10px; } /* allow space for check mark */

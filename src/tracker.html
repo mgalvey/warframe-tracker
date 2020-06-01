@@ -41,7 +41,7 @@
         <div class="d-inline-block" style="font-size: 125%;">Show:&nbsp;</div>
         <div repeat.for="cat of app.globals.usefulCategories" class="form-check form-check-inline">
           <input class="form-check-input" type="checkbox" id="${cat}Checkbox" model.bind="cat" checked.bind="app.globals.showOnly" change.trigger="app.globals.saveState()">
-          <label class="form-check-label" for="${cat}Checkbox">${cat} (${app.globals.owned[cat].length}/${app.globals.complete[cat].length}/${app.globals[cat + 'Total']})</label>
+          <label class="form-check-label" for="${cat}Checkbox">${cat} (<span class="owned">${app.globals.owned[cat].length}</span>/<span class="mastered">${app.globals.complete[cat].length}</span>/${app.globals[cat + 'Total']})</label>
         </div>
         <br/>
         <div class="d-inline-block" style="font-size: 125%;">Include:&nbsp;</div>
