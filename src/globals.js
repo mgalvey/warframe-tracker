@@ -112,10 +112,6 @@ export class Globals {
       if(item['category'] == 'Pets' && !item.hasOwnProperty('health')){
         continue;
       }
-      if(item['name'] == 'Oloro Moa') {
-        console.log('Encountered Oloro Moa. Why is it fucked?');
-        console.log(item);
-      }
       if(this.usefulCategories.includes(item['category'])) {
         item['searchName'] = item['name'].toLowerCase();
         this.allItems.push(item);
