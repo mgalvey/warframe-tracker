@@ -5,32 +5,83 @@ export class Globals {
     // let s = new HttpClient();
     this.allVisible = true;
     this.showOnly = [
-      'Warframes', 'Primary', 'Secondary', 'Melee', 'Amps', 'Sentinels', 'Pets', 'Moas', 'Zaws', 'Archwing', 'K-Drive'
+      'Warframe', 'Primary', 'Secondary', 'Melee', 'Robotic', 'Companions',
+      'Vehicles', 'Archgun', 'Archmelee', 'Amps'
     ];
     this.textSearch = '';
     this.complete = {};
     this.owned = {};
     this.hideComplete = false;
-    this.included = ['Mastered', 'Unmastered'];
+    this.included = ['Mastered', 'Unmastered', 'Founder'];
     this.allItems = [];
     this.cols = 4;
 
-    this.usefulCategories = [
-      'Warframes', 'Primary', 'Secondary', 'Melee', 'Amps', 'Sentinels',
-      'Pets', 'Moas', 'Zaws', 'Archwing', 'K-Drive', 'Arch-Gun'
+    // list(object)
+    // Keys are field names, values are a string or RegExp to match.
+    this.excludes = [
+      {
+        'type': new Set([
+          'arcade minigame unlock','arcane','archwing mod','aura',
+          'ayatan sculpture','ayatan star','color palette','companion mod',
+          'conservation tag','eidolon shard','emotes','extractor','fish',
+          'fish part','focus lens','fur color','fur pattern','gear','gem',
+          'glyph','grineer settlement node','k-drive mod','key','misc',
+          'parazon','pet collar','pet resource','plant','relic','secondary mod',
+          'ship decoration','ship segment','shotgun mod','sigil','skin',
+          'stance','syandana','warframe mod'])
+      },
+      {
+        'uniqueName': new RegExp('/Lotus/Weapons/.*?Amplifiers/.*?/(Grip|Chassis).*')
+      },
+      {
+        'uniqueName': new RegExp('/Lotus/Weapons/.*?Secondary/.*?Modular.*?/(Clip|Handle).*')
+      }
     ];
-    var sec = new RegExp('^/Lotus/Weapons/.*?/Secondary/.*?ModularSecondarySet.*?/Barrel/.*?ModularSecondaryBarrel[A-Z]+?Part$');
-    var notsec = new RegExp('^/Lotus/Weapons/.*?/Secondary/.*?ModularSecondarySet.*?/(Clip|Handle)/.*?$');
-    var moa = new RegExp('/Lotus/Types/Friendly/Pets/MoaPets/MoaPetParts/MoaPetHead');
-    var zaw = new RegExp('/Lotus/Weapons/Ostron/Melee/ModularMelee.*?/Tips?/');
-    var notzaw = new RegExp('/Lotus/Weapons/Ostron/Melee/ModularMelee.*?/(Balance|Handles?)/');
-    var amp = new RegExp('/Lotus/Weapons/.*?/OperatorAmplifiers/.*?Barrel');
-    var notamp = new RegExp('/Lotus/Weapons/.*?/OperatorAmplifiers/.*/(Grip|Chassis)/.*');
-    var sw = new RegExp('/Lotus/Types/Sentinels/SentinelWeapons/');
-    var kd = new RegExp('^/Lotus/Types/Vehicles/Hoverboard/.*?Deck$');
-    this.categoryOverrides = [
-      [sec, 'Secondary'], [moa, 'Moas'], [zaw, 'Zaws'], [amp, 'Amps'], [sw, 'Sentinels'], [kd, 'K-Drive'],
-      [notsec, 'Ignoreme'], [notzaw, 'Ignoreme'], [notamp, 'Ignoreme']
+    // list(list(category, object))
+    this.mappings = [
+      ['Warframe', {'productCategory': 'Suits'}],
+      ['Archgun', {
+        'productCategory': 'SpaceGuns'
+      }],
+      ['Primary', {'category': 'Primary'}],
+      ['Secondary', {
+        'category': 'Secondary',
+        'type': new Set([
+          'dual pistols', 'gunblade', 'pistol', 'secondary', 'shotgun sidearm',
+          'thrown', 'kitgun component', 'crossbow', 'shotgun', 'dual shotguns'
+        ]),
+        'sentinel': null
+      }],
+      ['Melee', {'category': 'Melee'}],
+      ['Melee', {
+        'uniqueName': new RegExp('/Lotus/Weapons/.*?Melee/.*?Modular.*?/Tip.*')
+      }],
+      ['Robotic', {
+        'productCategory': new Set(['sentinels', 'sentinelweapons'])
+      }],
+      ['Robotic', {
+        'uniqueName': new RegExp('/Lotus/Types/Friendly/Pets/MoaPets/.*?/MoaPetHead')
+      }],
+      ['Companions', {
+        'productCategory': 'KubrowPets'
+      }],
+      ['Vehicles', {
+        'uniqueName': new RegExp('Hoverboard.*Deck')
+      }],
+      ['Vehicles', {
+        'productCategory': 'SpaceSuits'
+      }],
+      ['Archmelee', {
+        'productCategory': 'SpaceMelee'
+      }],
+      ['Amps', {
+        'type': 'Amp'
+      }],
+    ];
+
+    this.usefulCategories = [
+      'Warframe', 'Primary', 'Secondary', 'Melee', 'Robotic', 'Companions',
+      'Vehicles', 'Archgun', 'Archmelee', 'Amps'
     ];
 
     this.loadState();
@@ -109,10 +160,19 @@ export class Globals {
 
   loadItems(data) {
     for(var item of data) {
-      this.checkForOverride(item);
-      if(item['category'] == 'Pets' && !item.hasOwnProperty('health')){
+      if(this.excluded(item)) {
+        // console.log(`Item with name ${item['name']} excluded. (${item['uniqueName']})`)
         continue;
       }
+      // Of course, the dataset we're pulling has founder tags for everything but the frame.
+      // This is simpler.
+      if(['Excalibur Prime', 'Skana Prime', 'Lato Prime'].includes(item['name'])) {
+        item['Founder'] = true;
+      }
+      else {
+        item['Founder'] = false;
+      }
+      this.mapItem(item);
       if(this.usefulCategories.includes(item['category'])) {
         item['searchName'] = item['name'].toLowerCase();
         this.allItems.push(item);
@@ -122,6 +182,101 @@ export class Globals {
         this[item.category + 'Total'] += 1;
       }
     }
+  }
+
+  mapItem(item) {
+    for(var m of this.mappings) {
+      var count = Object.keys(m[1]).length;
+      var matches = 0;
+      for(let [k, v] of Object.entries(m[1])) {
+        if(item.hasOwnProperty(k)) {
+          if(v instanceof RegExp) {
+            matches += v.test(item[k]) ? 1 : 0;
+          }
+          else if(typeof(v) == "string") {
+            if(v.includes('inarr:')) {
+              tmp = v.substr(6);
+              if(item[k].includes(tmp)) {
+                matches++;
+              }
+              else {
+                break;
+              }
+            }
+            else {
+              if(v.toLowerCase() == item[k].toLowerCase()) {
+                matches++;
+              }
+              else {
+                break;
+              }
+            }
+          }
+          else if(v instanceof Set) {
+            if(v.has(item[k].toLowerCase())) {
+              matches++;
+            }
+            else {
+              break;
+            }
+          }
+        }
+        // Null value triggers when key doesn't exist.
+        else if(v == null) {
+          matches++;
+        }
+        else {
+          break;
+        }
+      }
+      if(matches == count) {
+        item['category'] = m[0];
+        return;
+      }
+    }
+    // If we get to this point without matching, ignore.
+    item['category'] = 'ignoreme';
+  }
+
+  excluded(item) {
+    var excluded = false;
+    for(var e of this.excludes) {
+      var count = Object.keys(e).length;
+      var matches = 0;
+      for(let [k, v] of Object.entries(e)) {
+        if(item.hasOwnProperty(k)) {
+          if(v instanceof RegExp) {
+            excluded = v.test(item[k]) ? true : false;
+            if(excluded) {
+              matches++;
+            }
+          }
+          else if(v instanceof String) {
+            if(v.toLowerCase() == item[k].toLowerCase()) {
+              matches++;
+            }
+            else {
+              break;
+            }
+          }
+          else if(v instanceof Set) {
+            if(v.has(item[k].toLowerCase())) {
+              matches++;
+            }
+            else {
+              break;
+            }
+          }
+        }
+        else {
+          break;
+        }
+      }
+      if(count == matches) {
+        return true;
+      }
+    }
+    return false;
   }
 
   checkForOverride(item) {
