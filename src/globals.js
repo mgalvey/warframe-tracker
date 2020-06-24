@@ -43,7 +43,7 @@ export class Globals {
       ['Archgun', {
         'productCategory': 'SpaceGuns'
       }],
-      ['Primary', {'category': 'Primary'}],
+      ['Primary', {'category': 'Primary', 'sentinel': null}],
       ['Secondary', {
         'category': 'Secondary',
         'type': new Set([
