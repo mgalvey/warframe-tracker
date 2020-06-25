@@ -31,6 +31,10 @@ export class Globals {
           'stance','syandana','warframe mod'])
       },
       {
+        // Hopefully wards off a lot of useless entries.
+        'rewardName': new RegExp('.')
+      },
+      {
         'uniqueName': new RegExp('/Lotus/Weapons/.*?Amplifiers/.*?/(Grip|Chassis).*')
       },
       {
@@ -45,7 +49,7 @@ export class Globals {
       }],
       ['Primary', {'category': 'Primary', 'sentinel': null}],
       ['Secondary', {
-        'category': 'Secondary',
+        'category': new Set(['secondary', 'misc']),
         'type': new Set([
           'dual pistols', 'gunblade', 'pistol', 'secondary', 'shotgun sidearm',
           'thrown', 'kitgun component', 'crossbow', 'shotgun', 'dual shotguns'
